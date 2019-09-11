@@ -7,7 +7,7 @@ This is just a hobby project I built myself for my living room. It is an arduino
 
 Hardware:
 * TV: The setup (hardware + software) is created for a full-hd (1080P) tv with 65"
-* Micro controller: ESP8266 ESP-12E CH340G Wireless WIFI Internet Development Board für NodeMcu Lua (
+* Micro controller: ESP8266 ESP-12E CH340G Wireless WIFI Internet Development Board (NodeMcu)
 * Computer: I use a windows 10 pc (gigabyte brix, attached to my TV via HDMI)
 * Led strip: WS2812B (300 LEDs)
 * Power supply: DC 5V-24V 2A-80A
