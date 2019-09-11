@@ -5,7 +5,7 @@ BackLight for TV (ESP8266 / Windows C#):
 
 ![](Misc/BackLight.png)
 
-This is just a hobby project I built myself for my living room. It is an arduino-based (ESP8266) backlight for my TV. Communication between client and server is done via UDP over wireless LAN. I do not take any responsibility if you damage you, yourself, your TV, or anything else by using my code, schematics, etc.
+This is just a hobby project I built myself for my living room. It is an arduino-based (ESP8266) backlight for my TV. Communication between client and server is done via UDP over wireless LAN. I do not take any responsibility if you damage you, yourself, your TV, or anything else by using my code, schematics, etc. Nevertheless, I hope you can use my code and ideas for yourself :-). Have fun playing with LED pixels...! 
 
 Sample Videos of the BackLight:
 * [BackLight Test1.mpg](https://github.com/n1k0m0/BackLight/raw/master/Demo%20Videos/BackLight%20Test1.mpg)
