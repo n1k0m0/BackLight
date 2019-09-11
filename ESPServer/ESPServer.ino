@@ -25,7 +25,7 @@
 #define SERVER_PORT 1234
 
 //Wifi settings
-const char* ssid = "wlan ssid;
+const char* ssid = "wlan ssid";
 const char* password = "wlan password";
 const char* hostname = "Pixelserver";
 
