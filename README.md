@@ -19,12 +19,12 @@ Hardware:
 * Power supply: DC 5V-24V 2A-80A
 
 Software:
-* Windows (client): Microsoft Visual Studio / C# .net 7.6.2; see ESPServer folder of this project
-* ESP8266 (server): Arduino; see BackLight folder of this project
+* Windows (client): Microsoft Visual Studio / C# .net 7.6.2; see BackLight folder of this project
+* ESP8266 (server): Arduino; see ESPServer folder of this project
 
-Of course, you can use my source code and adapt it to your needs. If you have any questions, don't hesitate to write me :-)
+Of course, you can use my source code and adapt it to your needs. If you have any questions, don't hesitate writing me :-)
 
-You have to change the definitions in Constants.cs as well as adapt the ESPServer.ino to your needs. In the ESPServer.ino you have to define your ssid and your wpa2-key. Also, you can change the listenport here. In the Constants.cs you have to adapt the ip address as well as the udp port.
+You have to change the definitions in Constants.cs as well as adapt the ESPServer.ino to your needs. In the ESPServer.ino you have to define your ssid and your wpa2-key. Also, you can change the listen port here. In the Constants.cs you have to adapt the ip address as well as the udp port accordingly.
 
 Schematics:
 
@@ -38,11 +38,11 @@ This is a total of 82 * 2 + 48 * 2 = 260 LEDs for the complete screen.
 
 Basic idea:
 
-The basic idea of my setup is the following: The windows pc's software ("client") continuesly takes screenshots of the current screen at a rate of 10Hz. Each screenshot is analyzed by the program. For each side of the tv screen, "small squares" are analyzed. The program computes the "average color" of the particular region of the screen. Then, it sends a UDP packet containing all color information for the strip to the NodeMCU. The NodeMCU takes these color information and shows it at the strip. Since I had some problems with "false colors", I implemented a checksum (Fletcher-16) over the complete color array. Then, the server is able to check, if it receives correct colors by comparing the received checksum with its own checksum. If the sums do not match, the packed is discarded. This happens seldomly, and can not be seen by the viewer. But after implementing the checksums, the "false colors" disappeared. 
+The basic idea of my setup is the following: The windows pc's software ("client") continuesly takes screenshots of the current screen at a rate of 10Hz (every 100ms -- this is fast enough). Each screenshot is analyzed by the program. For each side of the tv screen, "small rectangles of pixels" are analyzed. The program computes the "average color" of the particular rectangle of the screen. Then, it sends a UDP packet containing all color information for the LED strip to the NodeMCU. The NodeMCU takes these color informations and sends these to the strip. Since I had some problems with "false colors", I implemented a checksum (Fletcher-16) over the complete color array. After that, the server is able to check, if it received correct colors by comparing the received checksum with its own computed checksum. If the sums do not match, the packet is discarded. This happens seldomly, and can not be seen by the viewer. But after implementing the checksums, the "false colors" disappeared. 
 
-The server is able to receive LED colors for each individual LED. But in my client, I send for each 2 consecutive LEDs the same color.
+The server is able to receive LED colors for each individual LED. But in my client, I send for each two consecutive LEDs the same color.
 
-The client runs in the background, but shows itself in the tray of Windows. By right-click, you may stop the client as well as show and hide a debug window, which shows you the color information it currently sends to the server.
+The client runs hidden in the background, but shows itself as small icon in the tray (right lower corner) of Windows. By right-click, you may stop the client as well as show and hide a debug window, which shows you the color information it currently sends to the server.
 
 Network protocol:
 
