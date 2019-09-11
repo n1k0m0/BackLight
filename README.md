@@ -3,7 +3,7 @@ BackLight for TV (ESP8266 / Windows C#):
 * BackLight (C# client)
 * ESPServer (arduino-based server for LED strip)
 
-This is just a hobby project I built myself for my living room. It is an arduino-based (ESP8266) backlight for my TV. Communication between client and server is done via UDP over wireless LAN.
+This is just a hobby project I built myself for my living room. It is an arduino-based (ESP8266) backlight for my TV. Communication between client and server is done via UDP over wireless LAN. I do not take any responsibility if you damage you, yourself, your TV, or anything else by using my code, schematics, etc.
 
 Sample Videos of the BackLight:
 * [BackLight Test1.mpg](https://github.com/n1k0m0/BackLight/raw/master/Demo%20Videos/BackLight%20Test1.mpg)
@@ -17,8 +17,46 @@ Hardware:
 * Power supply: DC 5V-24V 2A-80A
 
 Software:
-* Windows: Microsoft Visual Studio / C# .net 7.6.2
-* ESP8266: Arduino
+* Windows (client): Microsoft Visual Studio / C# .net 7.6.2; see ESPServer folder of this project
+* ESP8266 (server): Arduino; see BackLight folder of this project
 
 Of course, you can use my source code and adapt it to your needs. If you have any questions, don't hesitate to write me :-)
+
+You have to change the definitions in Constants.cs as well as adapt the ESPServer.ino to your needs. In the ESPServer.ino you have to define your ssid and your wpa2-key. Also, you can change the listenport here. In the Constants.cs you have to adapt the ip address as well as the udp port.
+
+Schematics:
+
+The following figure shows the main setup I built for my tv. First, I only created a single strip going from the left downer corner to the top, then to the right, down, and back to the left. Since the LEDs at the end of the strip did not get enough power, I created a "circle" by soldering grounds and VCCs together. This allows my setup to light up the LEDs by 75%. I would suggest to also create two wires (VCC and ground) to the upper right corner, as shown in the schematics. And don't create a circle of the BUS wire (depicted as green wire in the figure).
+
+![](Misc/schematics.png)
+
+I have 86 LEDs on the top and 86 LEDs on the bottom of my screen.
+I have 48 LEDs on the left and 48 LEDs on the right side of my screen.
+This is a total of 82 * 2 + 48 * 2 = 260 LEDs for the complete screen.
+
+Basic idea:
+
+The basic idea of my setup is the following: The windows pc's software ("client") continuesly takes screenshots of the current screen at a rate of 10Hz. Each screenshot is analyzed by the program. For each side of the tv screen, "small squares" are analyzed. The program computes the "average color" of the particular region of the screen. Then, it sends a UDP packet containing all color information for the strip to the NodeMCU. The NodeMCU takes these color information and shows it at the strip. Since I had some problems with "false colors", I implemented a checksum (Fletcher-16) over the complete color array. Then, the server is able to check, if it receives correct colors by comparing the received checksum with its own checksum. If the sums do not match, the packed is discarded. This happens seldomly, and can not be seen by the viewer. But after implementing the checksums, the "false colors" disappeared. 
+
+The server is able to receive LED colors for each individual LED. But in my client, I send for each 2 consecutive LEDs the same color.
+
+The client runs in the background, but shows itself in the tray of Windows. By right-click, you may stop the client as well as show and hide a debug window, which shows you the color information it currently sends to the server.
+
+Network protocol:
+
+The UDP packet may consist of an "arbritrary" number of LED informations (array), where a single LED information is:
+
+```c
+ struct LED_information
+ {
+  byte pixelLo;   // low byte of the offset of the pixel which should be changed
+  byte pixelHi;   // high byte of the offset of the pixel which should be changed
+  byte red;       // red part of pixel color
+  byte green;     // green part of pixel color
+  byte blue;      // blue part of pixel color
+ }
+```
+
+The last two bytes of the packet have to be a "Fletcher-16 checksum" over the previous array of LED informations. See https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Fletcher-16 for details on that checksum.
+ 
 
