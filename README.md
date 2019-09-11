@@ -46,7 +46,8 @@ The client runs hidden in the background, but shows itself as small icon in the 
 
 Network protocol:
 
-The UDP packet may consist of an "arbritrary" number of LED informations (array), where a single LED information is:
+The UDP packet starts with 1 byte for the brightness of all following pixels.
+After that, the UDP packet may consist of an "arbritrary" number of LED informations (array), where a single LED information is:
 
 ```c
  struct LED_information
@@ -59,6 +60,6 @@ The UDP packet may consist of an "arbritrary" number of LED informations (array)
  }
 ```
 
-The last two bytes of the packet have to be a "Fletcher-16 checksum" over the previous array of LED informations. See https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Fletcher-16 for details on that checksum.
+The last two bytes of the packet have to be a "Fletcher-16 checksum" over the brightness byte, the previous array of LED informations, and two zero bytes (0x00). See https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Fletcher-16 for details on that checksum.
  
 
