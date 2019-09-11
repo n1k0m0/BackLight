@@ -47,7 +47,7 @@ The client runs hidden in the background, but shows itself as small icon in the 
 Network protocol:
 
 The UDP packet starts with 1 byte for the brightness of all following pixels.
-After that, the UDP packet may consist of an "arbritrary" number of LED informations (array), where a single LED information is:
+After that, the UDP packet may consist of an "arbitrary" number of LED informations (array), where a single LED information is:
 
 ```c
  struct LED_information
