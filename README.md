@@ -24,8 +24,6 @@ Software:
 
 Of course, you can use my source code and adapt it to your needs. If you have any questions, don't hesitate writing me :-)
 
-You have to change the definitions in Constants.cs as well as adapt the ESPServer.ino to your needs. In the ESPServer.ino you have to define your ssid and your wpa2-key. Also, you can change the listen port here. In the Constants.cs you have to adapt the ip address as well as the udp port accordingly.
-
 Schematics:
 
 The following figure shows the main setup I built for my tv. First, I only created a single strip going from the left downer corner to the top, then to the right, down, and back to the left. Since the LEDs at the end of the strip did not get enough power, I created a "circle" by soldering grounds and VCCs together. This allows my setup to light up the LEDs by 75%. I would suggest to also create two wires (VCC and ground) to the upper right corner, as shown in the schematics. And don't create a circle of the BUS wire (depicted as green wire in the figure).
@@ -43,6 +41,27 @@ The basic idea of my setup is the following: The windows pc's software ("client"
 The server is able to receive LED colors for each individual LED. But in my client, I send for each two consecutive LEDs the same color.
 
 The client runs hidden in the background, but shows itself as small icon in the tray (right lower corner) of Windows. By right-click, you may stop the client as well as show and hide a debug window, which shows you the color information it currently sends to the server.
+
+How to use the Client:
+
+Just start the BackLight.exe file. Then, in the right lower corner you see the small BackLight icon. By right-click you get a context menu with some entries:
+* Static Color Mode: Enable/Disable "static color mode". This means, that you will only have a single color as background which can be set in the settings
+* Settings: Opens the settings window
+* Show/Hide Debug UI: Shows or hides the debug UI of the application showing the colored rectangles which are live analyzed and displayed
+* Quit: Terminates the application :-) - Since the debug ui is also the "main ui", closing this window also closes the application
+
+Settings Window:
+
+![](Misc/settings.png)
+
+* Static Color: Here you can select the color for the "static color mode"
+* Brightness: Changes the global brightness value of the LED strip (between 0 and 255)
+* Update Rate: Changes the update rate of the screen analysis (in Hertz)
+* Server IP Address: Here, you have to enter the IP address of the arduino
+* Server Port: Here, you have to enter the port of the arduino
+* Save-Button: Saves the settings to the hard drive using .net settings. This button is only active, if there are actual changes in the setting's values
+
+If you close the window without pressing the save button, nothing will be changed.
 
 Network protocol:
 
