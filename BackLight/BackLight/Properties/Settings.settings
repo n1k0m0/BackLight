@@ -1,7 +1,21 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BackLight.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="StaticColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="UpdateRate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="IpAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.0.50</Value>
+    </Setting>
+    <Setting Name="Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1234</Value>
+    </Setting>
+    <Setting Name="Brightness" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

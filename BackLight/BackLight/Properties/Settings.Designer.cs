@@ -22,5 +22,65 @@ namespace BackLight.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color StaticColor {
+            get {
+                return ((global::System.Drawing.Color)(this["StaticColor"]));
+            }
+            set {
+                this["StaticColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int UpdateRate {
+            get {
+                return ((int)(this["UpdateRate"]));
+            }
+            set {
+                this["UpdateRate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.0.50")]
+        public string IpAddress {
+            get {
+                return ((string)(this["IpAddress"]));
+            }
+            set {
+                this["IpAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1234")]
+        public int Port {
+            get {
+                return ((int)(this["Port"]));
+            }
+            set {
+                this["Port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int Brightness {
+            get {
+                return ((int)(this["Brightness"]));
+            }
+            set {
+                this["Brightness"] = value;
+            }
+        }
     }
 }

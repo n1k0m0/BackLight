@@ -18,13 +18,9 @@ namespace BackLight
 {
     public class Constants
     {
-        public const string IpAddress = "192.168.0.50";
-        public const int Port = 1234;
-
         //this field may be changed by the user using the context menu in the tray (show/hide ui)
         public static bool DebugDraw = true;
-
-        public const int TimerInterval = 100;
+        public static bool StaticColor = false;
         public const int scanPixelSize = 50;
         public const int verticalOffset = 0;        
     }
