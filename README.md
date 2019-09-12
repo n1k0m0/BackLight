@@ -86,7 +86,7 @@ The last two bytes of the packet have to be a "Fletcher-16 checksum" over the br
 Client: 
 
 You need Visual Studio. I used Visual Studio Community edition 2019 (see https://visualstudio.microsoft.com/vs/)
-Just clone/download this repository. Then, open the BackLight/BackLight.sln in Visual Studio 2019. Compile the project. Don't forget to switch from DEBUG compilation to RELEASE compilation. You may also download the current build which I uploaded to the repository (see binary folder).
+Just clone/download this repository. Then, open the BackLight/BackLight.sln in Visual Studio 2019. Compile the project. Don't forget to switch from DEBUG compilation to RELEASE compilation. You may also download the current build which I uploaded to the repository (see "Builds" folder).
 
 Server:
 
