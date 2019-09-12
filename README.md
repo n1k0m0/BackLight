@@ -11,6 +11,14 @@ Sample Videos of the BackLight:
 * [BackLight Test1.mpg](https://github.com/n1k0m0/BackLight/raw/master/Demo%20Videos/BackLight%20Test1.mpg)
 * [BackLight Test2.mpg](https://github.com/n1k0m0/BackLight/raw/master/Demo%20Videos/BackLight%20Test2.mpg)
 
+Basic idea:
+
+The basic idea of my setup is the following: The windows pc's software ("client") continuesly takes screenshots of the current screen at a rate of 10Hz (every 100ms -- this is fast enough). Each screenshot is analyzed by the program. For each side of the tv screen, "small rectangles of pixels" are analyzed. The program computes the "average color" of the particular rectangle of the screen. Then, it sends a UDP packet containing all color information for the LED strip to the NodeMCU. The NodeMCU takes these color informations and sends these to the strip. Since I had some problems with "false colors", I implemented a checksum (Fletcher-16) over the complete color array. After that, the server is able to check, if it received correct colors by comparing the received checksum with its own computed checksum. If the sums do not match, the packet is discarded. This happens seldomly, and can not be seen by the viewer. But after implementing the checksums, the "false colors" disappeared. 
+
+The server is able to receive LED colors for each individual LED. But in my client, I send for each two consecutive LEDs the same color.
+
+The client runs hidden in the background, but shows itself as small icon in the tray (right lower corner) of Windows. By right-click, you may stop the client as well as show and hide a debug window, which shows you the color information it currently sends to the server.
+
 Hardware:
 * TV: The setup (hardware + software) is created for a full-hd (1080P) tv with 65"
 * Micro controller: ESP8266 ESP-12E CH340G Wireless WIFI Internet Development Board (NodeMcu)
@@ -33,14 +41,6 @@ The following figure shows the main setup I built for my tv. First, I only creat
 I have 86 LEDs on the top and 86 LEDs on the bottom of my screen.
 I have 48 LEDs on the left and 48 LEDs on the right side of my screen.
 This is a total of 86 * 2 + 48 * 2 = 268 LEDs for the complete screen.
-
-Basic idea:
-
-The basic idea of my setup is the following: The windows pc's software ("client") continuesly takes screenshots of the current screen at a rate of 10Hz (every 100ms -- this is fast enough). Each screenshot is analyzed by the program. For each side of the tv screen, "small rectangles of pixels" are analyzed. The program computes the "average color" of the particular rectangle of the screen. Then, it sends a UDP packet containing all color information for the LED strip to the NodeMCU. The NodeMCU takes these color informations and sends these to the strip. Since I had some problems with "false colors", I implemented a checksum (Fletcher-16) over the complete color array. After that, the server is able to check, if it received correct colors by comparing the received checksum with its own computed checksum. If the sums do not match, the packet is discarded. This happens seldomly, and can not be seen by the viewer. But after implementing the checksums, the "false colors" disappeared. 
-
-The server is able to receive LED colors for each individual LED. But in my client, I send for each two consecutive LEDs the same color.
-
-The client runs hidden in the background, but shows itself as small icon in the tray (right lower corner) of Windows. By right-click, you may stop the client as well as show and hide a debug window, which shows you the color information it currently sends to the server.
 
 How to use the Client:
 
