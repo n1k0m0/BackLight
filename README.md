@@ -81,4 +81,14 @@ After that, the UDP packet may consist of an "arbitrary" number of LED informati
 
 The last two bytes of the packet have to be a "Fletcher-16 checksum" over the brightness byte, the previous array of LED informations, and two zero bytes (0x00). See https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Fletcher-16 for details on that checksum.
  
+# Compiling your own BackLight:
 
+Client: 
+
+You need Visual Studio. I used Visual Studio Community edition 2019 (see https://visualstudio.microsoft.com/vs/)
+Just clone/download this repository. Then, open the BackLight/BackLight.sln in Visual Studio 2019. Compile the project. Don't forget to switch from DEBUG compilation to RELEASE compilation. You may also download the current build which I uploaded to the repository (see binary folder).
+
+Server:
+
+You need the Arduiono IDE. I used the 1.8.9 version (see https://www.arduino.cc/en/Main/Software).
+Open ESPServer/ESPServer.ino with the arduino IDE. Compile it and upload it to your ESP8266. You also need to download the Adafruit Neo Pixel library. In the IDE go to "Tools/Manage Libraries") and download it. 
