@@ -34,7 +34,7 @@ The following figure shows the main setup I built for my tv. First, I only creat
 
 I have 86 LEDs on the top and 86 LEDs on the bottom of my screen.
 I have 48 LEDs on the left and 48 LEDs on the right side of my screen.
-This is a total of 82 * 2 + 48 * 2 = 260 LEDs for the complete screen.
+This is a total of 86 * 2 + 48 * 2 = 268 LEDs for the complete screen.
 
 Basic idea:
 
