@@ -19,7 +19,7 @@ namespace BackLight
     public class Constants
     {
         //this field may be changed by the user using the context menu in the tray (show/hide ui)
-        public static bool DebugDraw = true;
+        public static bool DebugDraw = false;
         public static bool StaticColor = false;
         public const int scanPixelSize = 50;
         public const int verticalOffset = 0;        

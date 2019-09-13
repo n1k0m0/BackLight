@@ -59,7 +59,17 @@ namespace BackLight
         private void timer_Tick(object sender, EventArgs e)
         {
             _timer.Interval = 1000 / Properties.Settings.Default.UpdateRate;
-            Dispatcher.Invoke(GenerateAndSendBacklightPixels);
+            Dispatcher.Invoke(() =>
+               {
+                   try
+                   {
+                       GenerateAndSendBacklightPixels();
+                   }
+                   catch (Exception)
+                   {
+                       //do nothing
+                   }
+               });
         }
 
         /// <summary>
@@ -84,21 +94,25 @@ namespace BackLight
                 new Rectangle(0, 0, screenshot.Width, screenshot.Height),
                 ImageLockMode.ReadOnly,
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            try
+            {
+                int stride = srcData.Stride;
+                IntPtr scan0 = srcData.Scan0;
 
-            int stride = srcData.Stride;
-            IntPtr scan0 = srcData.Scan0;
-
-            //here, we generate the actual pixel data for the strip
-            _upperColors.Clear();
-            GenerateUpperRow(scan0, stride, context);
-            _lowerColors.Clear();
-            GenerateLowerRow(scan0, stride, context);
-            _leftColors.Clear();
-            GenerateLeftColumn(scan0, stride, context);
-            _rightColors.Clear();
-            GenerateRightColumn(scan0, stride, context);
-
-            screenshot.UnlockBits(srcData);
+                //here, we generate the actual pixel data for the strip
+                _upperColors.Clear();
+                GenerateUpperRow(scan0, stride, context);
+                _lowerColors.Clear();
+                GenerateLowerRow(scan0, stride, context);
+                _leftColors.Clear();
+                GenerateLeftColumn(scan0, stride, context);
+                _rightColors.Clear();
+                GenerateRightColumn(scan0, stride, context);
+            }
+            finally
+            {
+                screenshot.UnlockBits(srcData);
+            }
 
             //if the user selected static color, we overwrite all colors by the static one
             if (Constants.StaticColor)
