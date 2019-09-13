@@ -24,7 +24,11 @@ namespace BackLight
     /// Interaktionslogik für Settings.xaml
     /// </summary>
     public partial class Settings : Window
-    {        
+    {
+        // I use the loading variable to determine, if the settings are currently loaded.
+        // if yes, i don't enable the save button
+        private bool _loading = false;
+
         public Settings()
         {
             InitializeComponent();
@@ -33,11 +37,14 @@ namespace BackLight
 
         private void LoadSettings()
         {
+            _loading = true;
             StaticColor.SelectedColor = DrawingToMedia(Properties.Settings.Default.StaticColor);
             UpdateRate.Text = "" + Properties.Settings.Default.UpdateRate;
             IpAddress.Text = Properties.Settings.Default.IpAddress;
             Port.Text = "" + Properties.Settings.Default.Port;
             BrightnessSlider.Value = Properties.Settings.Default.Brightness;
+            PowerOffCheckBox.IsChecked = Properties.Settings.Default.PowerOffStripAtExit;
+            _loading = false;
         }
 
         /// <summary>
@@ -56,22 +63,42 @@ namespace BackLight
 
         private void StaticColor_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
-            SaveButton.IsEnabled = true;
+            EnableSaveButton();
         }
 
         private void UpdateRate_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SaveButton.IsEnabled = true;
+            EnableSaveButton();
         }
 
         private void IpAddress_TextChanged(object sender, TextChangedEventArgs e)
         {
-            SaveButton.IsEnabled = true;
+            EnableSaveButton();
         }
 
         private void Port_TextChanged(object sender, TextChangedEventArgs e)
         {
-            SaveButton.IsEnabled = true;
+            EnableSaveButton();
+        }
+
+
+        private void PowerOffCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            EnableSaveButton();
+        }
+
+
+        private void BrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            EnableSaveButton();
+        }
+
+        private void EnableSaveButton()
+        {
+            if (!_loading)
+            {
+                SaveButton.IsEnabled = true;
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -119,6 +146,7 @@ namespace BackLight
             Properties.Settings.Default.IpAddress = IpAddress.Text;
             Properties.Settings.Default.Port = port;
             Properties.Settings.Default.Brightness = (int)BrightnessSlider.Value;
+            Properties.Settings.Default.PowerOffStripAtExit = PowerOffCheckBox.IsChecked == true;
             Properties.Settings.Default.Save();
             SaveButton.IsEnabled = false;
         }
@@ -142,11 +170,6 @@ namespace BackLight
         public static System.Drawing.Color MediaToDrawing(System.Windows.Media.Color color)
         {
             return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
-        }
-
-        private void BrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            SaveButton.IsEnabled = true;
         }
 
         #endregion

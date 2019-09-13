@@ -6,13 +6,14 @@
         xmlns:local="clr-namespace:BackLight"
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="BackLight Settings" Height="350" Width="340" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="icon.ico" ResizeMode="NoResize">
+        Title="BackLight Settings" Height="400" Width="360" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="icon.ico" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
@@ -43,6 +44,9 @@
         <Label Content="Server Port:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox Name="Port" Grid.Row="4" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" TextChanged="Port_TextChanged"/>
 
-        <Button Content="Save" Name="SaveButton" Grid.Row="5" Grid.Column="2" Width="75" Height="35" HorizontalAlignment="Right" IsEnabled="False" Click="SaveButton_Click"/>
+        <Label Content="Power off strip at exit:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+        <CheckBox Name="PowerOffCheckBox" Grid.Row="5" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" Click="PowerOffCheckBox_Click"/>
+
+        <Button Content="Save" Name="SaveButton" Grid.Row="6" Grid.Column="2" Width="75" Height="35" HorizontalAlignment="Right" IsEnabled="False" Click="SaveButton_Click"/>
     </Grid>
 </Window>

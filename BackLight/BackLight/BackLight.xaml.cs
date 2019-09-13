@@ -549,17 +549,21 @@ namespace BackLight
         }
 
         /// <summary>
-        /// When we close the window, we also send a "dark packet" to shut down the LED strip
+        /// When we close the window, we also send a "dark packet" to shut down the LED strip (user may disable this)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _timer.Stop();
-            Thread.Sleep(100); //give the last tick of the timer some time to be finished
-            //then, send the "dark packet" with all colors set to black
-            SetAllToOneColor(Colors.Black);
-            SendPixels(_upperColors, _lowerColors, _leftColors, _rightColors);
+            if (Properties.Settings.Default.PowerOffStripAtExit)
+            {
+                Thread.Sleep(100); //give the last tick of the timer some time to be finished
+                                   //then, send the "dark packet" with all colors set to black
+                SetAllToOneColor(Colors.Black);
+                SendPixels(_upperColors, _lowerColors, _leftColors, _rightColors);
+            }
+            System.Environment.Exit(0);
         }
     }
 }
