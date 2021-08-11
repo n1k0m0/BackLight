@@ -201,9 +201,9 @@ namespace BackLight
                 }
 
                 //Step 2: calculate average color
-                byte avgB = (byte)(totals[0] / pixels);
-                byte avgG = (byte)(totals[1] / pixels);
-                byte avgR = (byte)(totals[2] / pixels);
+                byte avgB = (byte)Math.Max(Constants.MinColorValue, totals[0] / pixels);
+                byte avgG = (byte)Math.Max(Constants.MinColorValue, totals[1] / pixels);
+                byte avgR = (byte)Math.Max(Constants.MinColorValue, totals[2] / pixels);
 
                 //Step 3: add to our upper color list
                 System.Windows.Media.Color avgColor = System.Windows.Media.Color.FromRgb(avgR, avgG, avgB);
@@ -250,9 +250,9 @@ namespace BackLight
                 }
 
                 //Step 2: calculate average color
-                byte avgB = (byte)(totals[0] / pixels);
-                byte avgG = (byte)(totals[1] / pixels);
-                byte avgR = (byte)(totals[2] / pixels);
+                byte avgB = (byte)Math.Max(Constants.MinColorValue, totals[0] / pixels);
+                byte avgG = (byte)Math.Max(Constants.MinColorValue, totals[1] / pixels);
+                byte avgR = (byte)Math.Max(Constants.MinColorValue, totals[2] / pixels);
 
                 //Step 3: add to our lower color list
                 System.Windows.Media.Color avgColor = System.Windows.Media.Color.FromRgb(avgR, avgG, avgB);
@@ -299,9 +299,9 @@ namespace BackLight
                 }
 
                 //Step 2: calculate average color
-                byte avgB = (byte)(totals[0] / pixels);
-                byte avgG = (byte)(totals[1] / pixels);
-                byte avgR = (byte)(totals[2] / pixels);
+                byte avgB = (byte)Math.Max(Constants.MinColorValue, totals[0] / pixels);
+                byte avgG = (byte)Math.Max(Constants.MinColorValue, totals[1] / pixels);
+                byte avgR = (byte)Math.Max(Constants.MinColorValue, totals[2] / pixels);
 
                 //Step 3: add to our left color list
                 System.Windows.Media.Color avgColor = System.Windows.Media.Color.FromRgb(avgR, avgG, avgB);
@@ -348,9 +348,9 @@ namespace BackLight
                 }
 
                 //Step 2: calculate average color
-                byte avgB = (byte)(totals[0] / pixels);
-                byte avgG = (byte)(totals[1] / pixels);
-                byte avgR = (byte)(totals[2] / pixels);
+                byte avgB = (byte)Math.Max(Constants.MinColorValue, totals[0] / pixels);
+                byte avgG = (byte)Math.Max(Constants.MinColorValue, totals[1] / pixels);
+                byte avgR = (byte)Math.Max(Constants.MinColorValue, totals[2] / pixels);
 
                 //Step 3: add to our left color list
                 System.Windows.Media.Color avgColor = System.Windows.Media.Color.FromRgb(avgR, avgG, avgB);
@@ -493,7 +493,7 @@ namespace BackLight
         /// <param name="e"></param>
         private void ContextMenu_ShowHideUiClick(object sender, RoutedEventArgs e)
         {
-            if (this.Visibility == Visibility.Hidden)
+            if (Visibility == Visibility.Hidden)
             {
                 Visibility = Visibility.Visible;
                 Constants.DebugDraw = true;
@@ -563,7 +563,7 @@ namespace BackLight
                 SetAllToOneColor(Colors.Black);
                 SendPixels(_upperColors, _lowerColors, _leftColors, _rightColors);
             }
-            System.Environment.Exit(0);
+            Environment.Exit(0);
         }
     }
 }
