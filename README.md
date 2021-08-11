@@ -59,6 +59,7 @@ Settings Window:
 * Update Rate: Changes the update rate of the screen analysis (in Hertz)
 * Server IP Address: Here, you have to enter the IP address of the arduino
 * Server Port: Here, you have to enter the port of the arduino
+* Power off strip at exit: When checked, the strip is powered off at the exit of the application
 * Save-Button: Saves the settings to the hard drive using .net settings. This button is only active, if there are actual changes in the setting's values
 
 If you close the window without pressing the save button, nothing will be changed.
@@ -81,7 +82,7 @@ After that, the UDP packet may consist of an "arbitrary" number of LED informati
 
 The last two bytes of the packet have to be a "Fletcher-16 checksum" over the brightness byte, the previous array of LED informations, and two zero bytes (0x00). See https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Fletcher-16 for details on that checksum.
  
-# Compiling your own BackLight:
+# Compiling your own BackLight
 
 Client: 
 
