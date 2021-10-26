@@ -21,8 +21,8 @@ namespace BackLight
         //this field may be changed by the user using the context menu in the tray (show/hide ui)        
         public static bool DebugDraw = false;
         public static bool StaticColor = false;
-        //The minimum R,G,B value for each pixel e.g. 10,10,10 used for all LEDs
-        public static byte MinColorValue = 10;
+        //The minimum R,G,B value for each pixel e.g. 0,0,0 used for all LEDs
+        public static byte MinColorValue = 0;
         public const int scanPixelSize = 50;
         public const int verticalOffset = 0;        
     }
