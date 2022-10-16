@@ -38,12 +38,13 @@ namespace BackLight
         private void LoadSettings()
         {
             _loading = true;
+            Resolution.SelectedIndex = Properties.Settings.Default.Resolution;
             StaticColor.SelectedColor = DrawingToMedia(Properties.Settings.Default.StaticColor);
             UpdateRate.Text = "" + Properties.Settings.Default.UpdateRate;
             IpAddress.Text = Properties.Settings.Default.IpAddress;
             Port.Text = "" + Properties.Settings.Default.Port;
             BrightnessSlider.Value = Properties.Settings.Default.Brightness;
-            PowerOffCheckBox.IsChecked = Properties.Settings.Default.PowerOffStripAtExit;
+            PowerOffCheckBox.IsChecked = Properties.Settings.Default.PowerOffStripAtExit;            
             _loading = false;
         }
 
@@ -139,14 +140,15 @@ namespace BackLight
                 MessageBox.Show("Invalid port (it has to be between 0 and 65535):" + Port.Text, "Invalid port", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            
+
             //2. save everything
+            Properties.Settings.Default.Resolution = Resolution.SelectedIndex;
             Properties.Settings.Default.StaticColor = MediaToDrawing(StaticColor.SelectedColor);
             Properties.Settings.Default.UpdateRate = rate;
             Properties.Settings.Default.IpAddress = IpAddress.Text;
             Properties.Settings.Default.Port = port;
             Properties.Settings.Default.Brightness = (int)BrightnessSlider.Value;
-            Properties.Settings.Default.PowerOffStripAtExit = PowerOffCheckBox.IsChecked == true;
+            Properties.Settings.Default.PowerOffStripAtExit = PowerOffCheckBox.IsChecked == true;            
             Properties.Settings.Default.Save();
             SaveButton.IsEnabled = false;
         }
@@ -173,5 +175,10 @@ namespace BackLight
         }
 
         #endregion
+
+        private void Resolution_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EnableSaveButton();
+        }
     }
 }

@@ -35,19 +35,27 @@ namespace BackLight
     /// </summary>
     public partial class MainWindow : Window
     {
-        private UdpClient _udpClient = new UdpClient();
-        private List<System.Windows.Media.Color> _upperColors = new List<System.Windows.Media.Color>();
-        private List<System.Windows.Media.Color> _lowerColors = new List<System.Windows.Media.Color>();
-        private List<System.Windows.Media.Color> _leftColors = new List<System.Windows.Media.Color>();
-        private List<System.Windows.Media.Color> _rightColors = new List<System.Windows.Media.Color>();
-        private Timer _timer = new Timer();
+        private int _x_stepsize = 44;
+        private int _y_stepsize = 45;
+        private int _screenWidth = 1900;
+        private int _screenHeight = 1080;
+        private int _scanPixelSize = 50;
+
+        private readonly UdpClient _udpClient = new UdpClient();
+        private readonly List<System.Windows.Media.Color> _upperColors = new List<System.Windows.Media.Color>();
+        private readonly List<System.Windows.Media.Color> _lowerColors = new List<System.Windows.Media.Color>();
+        private readonly List<System.Windows.Media.Color> _leftColors = new List<System.Windows.Media.Color>();
+        private readonly List<System.Windows.Media.Color> _rightColors = new List<System.Windows.Media.Color>();
+        private readonly Timer _timer = new Timer();
+
+        private Bitmap _screenshot;
 
         public MainWindow()
         {
             InitializeComponent();
             Visibility = Visibility.Hidden;            
             _timer.Interval = 1000 / Properties.Settings.Default.UpdateRate;
-            _timer.Tick += timer_Tick;
+            _timer.Tick += Timer_Tick;
             _timer.Enabled = true;
         }
 
@@ -56,20 +64,20 @@ namespace BackLight
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             _timer.Interval = 1000 / Properties.Settings.Default.UpdateRate;
             Dispatcher.Invoke(() =>
-               {
-                   try
-                   {
-                       GenerateAndSendBacklightPixels();
-                   }
-                   catch (Exception)
-                   {
-                       //do nothing
-                   }
-               });
+            {
+                try
+                {
+                    GenerateAndSendBacklightPixels();
+                }
+                catch (Exception)
+                {
+                    //do nothing
+                }
+            });
         }
 
         /// <summary>
@@ -77,8 +85,25 @@ namespace BackLight
         /// and sends these to the ESPServer for displaying it
         /// </summary>
         private void GenerateAndSendBacklightPixels()
-        {            
-            var screenshot = GenerateScreenshot();
+        {
+            if (Properties.Settings.Default.Resolution == 0) // 1080
+            {
+                _x_stepsize = 44;
+                _y_stepsize = 45;
+                _screenWidth = 1900;
+                _screenHeight = 1080;
+                _scanPixelSize = 50;
+            }
+            else if (Properties.Settings.Default.Resolution == 1) // 4K
+            {
+                _x_stepsize = 44 * 2;
+                _y_stepsize = 45 * 2;
+                _screenWidth = 1900 * 2;
+                _screenHeight = 1080 * 2;
+                _scanPixelSize = 50 * 2;
+            }
+
+            GenerateScreenshot();         
 
             DrawingVisual visual = null;
             DrawingContext context = null;            
@@ -90,8 +115,8 @@ namespace BackLight
             }
 
             //get all relevant data from the screenshot
-            BitmapData srcData = screenshot.LockBits(
-                new Rectangle(0, 0, screenshot.Width, screenshot.Height),
+            BitmapData srcData = _screenshot.LockBits(
+                new Rectangle(0, 0, _screenshot.Width, _screenshot.Height),
                 ImageLockMode.ReadOnly,
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             try
@@ -111,7 +136,7 @@ namespace BackLight
             }
             finally
             {
-                screenshot.UnlockBits(srcData);
+                _screenshot.UnlockBits(srcData);
             }
 
             //if the user selected static color, we overwrite all colors by the static one
@@ -126,7 +151,7 @@ namespace BackLight
             if (context != null)
             {
                 context.Close();
-                RenderTargetBitmap bmp = new RenderTargetBitmap(1900, 1080, 96, 96, PixelFormats.Pbgra32);
+                RenderTargetBitmap bmp = new RenderTargetBitmap(_screenWidth, _screenHeight, 96, 96, PixelFormats.Pbgra32);
                 bmp.Render(visual);
                 Image.Source = bmp;
             }
@@ -186,9 +211,9 @@ namespace BackLight
                 {
                     byte* p = (byte*)(void*)scan0;
 
-                    for (int y = Constants.verticalOffset; y < Constants.verticalOffset + Constants.scanPixelSize; y++)
+                    for (int y = Constants.verticalOffset; y < Constants.verticalOffset + _scanPixelSize; y++)
                     {
-                        for (int x = i * 44; x < (i + 1) * 44; x++)
+                        for (int x = i * _x_stepsize; x < (i + 1) * _x_stepsize; x++)
                         {
                             pixels++;
                             for (int color = 0; color < 3; color++)
@@ -213,7 +238,7 @@ namespace BackLight
                 if (context != null)
                 {
                     var brush = new SolidColorBrush(avgColor);
-                    context.DrawRectangle(brush, null, new Rect(i * 44, 0, 44, Constants.scanPixelSize * 2));
+                    context.DrawRectangle(brush, null, new Rect(i * 44, 0, 44, _scanPixelSize * 2));
                 }
             }
         }
@@ -235,9 +260,9 @@ namespace BackLight
                 {
                     byte* p = (byte*)(void*)scan0;
 
-                    for (int y = 1080 - Constants.verticalOffset - Constants.scanPixelSize; y < 1080 - Constants.verticalOffset; y++)
+                    for (int y = _screenHeight - Constants.verticalOffset - _scanPixelSize; y < _screenHeight - Constants.verticalOffset; y++)
                     {
-                        for (int x = i * 44; x < (i + 1) * 44; x++)
+                        for (int x = i * _x_stepsize; x < (i + 1) * _x_stepsize; x++)
                         {
                             pixels++;
                             for (int color = 0; color < 3; color++)
@@ -262,7 +287,7 @@ namespace BackLight
                 if (context != null)
                 {
                     var brush = new SolidColorBrush(avgColor);
-                    context.DrawRectangle(brush, null, new Rect(i * 44, 1080 - Constants.scanPixelSize * 2, 44, Constants.scanPixelSize * 2));
+                    context.DrawRectangle(brush, null, new Rect(i * 44, _screenHeight - _scanPixelSize * 2, 44, _scanPixelSize * 2));
                 }
             }
         }
@@ -284,9 +309,9 @@ namespace BackLight
                 {
                     byte* p = (byte*)(void*)scan0;
 
-                    for (int y = i * 45; y < (i + 1) * 45; y++)
+                    for (int y = i * _y_stepsize; y < (i + 1) * _y_stepsize; y++)
                     {
-                        for (int x = 0; x < Constants.scanPixelSize; x++)
+                        for (int x = 0; x < _scanPixelSize; x++)
                         {
                             pixels++;
                             for (int color = 0; color < 3; color++)
@@ -311,7 +336,7 @@ namespace BackLight
                 if (context != null)
                 {
                     var brush = new SolidColorBrush(avgColor);
-                    context.DrawRectangle(brush, null, new Rect(0, i * 45, Constants.scanPixelSize * 2, 45));
+                    context.DrawRectangle(brush, null, new Rect(0, i * 45, _scanPixelSize * 2, 45));
                 }
             }
         }
@@ -333,9 +358,9 @@ namespace BackLight
                 {
                     byte* p = (byte*)(void*)scan0;
 
-                    for (int y = i * 45; y < (i + 1) * 45; y++)
+                    for (int y = i * _y_stepsize; y < (i + 1) * _y_stepsize; y++)
                     {
-                        for (int x = 1900 - Constants.scanPixelSize; x < 1900; x++)
+                        for (int x = _screenWidth - _scanPixelSize; x < _screenWidth; x++)
                         {
                             pixels++;
                             for (int color = 0; color < 3; color++)
@@ -360,7 +385,7 @@ namespace BackLight
                 if (context != null)
                 {
                     var brush = new SolidColorBrush(avgColor);
-                    context.DrawRectangle(brush, null, new Rect(1900 - Constants.scanPixelSize * 2, i * 45, Constants.scanPixelSize * 2, 45));
+                    context.DrawRectangle(brush, null, new Rect(_screenWidth - _scanPixelSize * 2, i * 45, _scanPixelSize * 2, 45));
                 }
             }
         }
@@ -472,18 +497,20 @@ namespace BackLight
         /// Helper method to generate a screenshot
         /// </summary>
         /// <returns></returns>
-        private Bitmap GenerateScreenshot()
+        private void GenerateScreenshot()
         {
             //Create a new bitmap
-            var screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            if(_screenshot == null)
+            {
+               _screenshot = new Bitmap(_screenWidth, _screenHeight);
+            }
 
             // Create a graphics object from the bitmap
-            var g = Graphics.FromImage(screenshot);
-
-            // Take the screenshot from the upper left corner to the right bottom corner
-            g.CopyFromScreen(0,0,0,0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);          
-
-            return screenshot;
+            using (var g = Graphics.FromImage(_screenshot))
+            {
+                // Take the screenshot from the upper left corner to the right bottom corner
+                g.CopyFromScreen(0, 0, 0, 0, new System.Drawing.Size(_screenWidth, _screenHeight), CopyPixelOperation.SourceCopy);
+            }
         }
 
         /// <summary>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BackLight"
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="BackLight Settings" Height="400" Width="360" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="icon.ico" ResizeMode="NoResize">
+        Title="BackLight Settings" Height="450" Width="360" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Icon="icon.ico" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="140"/>
@@ -20,17 +20,24 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-       
-        <Label Content="Static Color:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-        <toolkit:ColorPicker UsingAlphaChannel="False" x:Name="StaticColor" Width="175" Height="35"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" SelectedColorChanged="StaticColor_SelectedColorChanged"/>
 
-        <Label Content="Brightness:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-        <Slider Name="BrightnessSlider" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Width="170" Maximum="255" Minimum="0" ValueChanged="BrightnessSlider_ValueChanged"/>
+        <Label Content="Resolution" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox Name="Resolution" Grid.Row="0" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="Resolution_SelectionChanged">
+            <ComboBoxItem>1080P</ComboBoxItem>
+            <ComboBoxItem>4K</ComboBoxItem>
+        </ComboBox>
 
-        <Label Content="Update Rate:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-        <ComboBox Name="UpdateRate" Grid.Row="2" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="UpdateRate_SelectionChanged">
+        <Label Content="Static Color:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+        <toolkit:ColorPicker UsingAlphaChannel="False" x:Name="StaticColor" Width="175" Height="35"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" SelectedColorChanged="StaticColor_SelectedColorChanged"/>
+
+        <Label Content="Brightness:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+        <Slider Name="BrightnessSlider" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Width="170" Maximum="255" Minimum="0" ValueChanged="BrightnessSlider_ValueChanged"/>
+
+        <Label Content="Update Rate:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox Name="UpdateRate" Grid.Row="3" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="UpdateRate_SelectionChanged">
             <ComboBoxItem>30</ComboBoxItem>
             <ComboBoxItem>20</ComboBoxItem>
             <ComboBoxItem>10</ComboBoxItem>
@@ -38,15 +45,15 @@
             <ComboBoxItem>1</ComboBoxItem>
         </ComboBox>
 
-        <Label Content="Server IP Address:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox Name="IpAddress" Grid.Row="3" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" TextChanged="IpAddress_TextChanged"/>
+        <Label Content="Server IP Address:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox Name="IpAddress" Grid.Row="4" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" TextChanged="IpAddress_TextChanged"/>
 
-        <Label Content="Server Port:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox Name="Port" Grid.Row="4" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" TextChanged="Port_TextChanged"/>
+        <Label Content="Server Port:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox Name="Port" Grid.Row="5" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" TextChanged="Port_TextChanged"/>
 
-        <Label Content="Power off strip at exit:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
-        <CheckBox Name="PowerOffCheckBox" Grid.Row="5" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" Click="PowerOffCheckBox_Click"/>
+        <Label Content="Power off strip at exit:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
+        <CheckBox Name="PowerOffCheckBox" Grid.Row="6" Grid.Column="1" Height="25" Width="175" VerticalAlignment="Center" VerticalContentAlignment="Center" Click="PowerOffCheckBox_Click"/>
 
-        <Button Content="Save" Name="SaveButton" Grid.Row="6" Grid.Column="2" Width="75" Height="35" HorizontalAlignment="Right" IsEnabled="False" Click="SaveButton_Click"/>
+        <Button Content="Save" Name="SaveButton" Grid.Row="7" Grid.Column="2" Width="75" Height="35" HorizontalAlignment="Right" IsEnabled="False" Click="SaveButton_Click"/>
     </Grid>
 </Window>

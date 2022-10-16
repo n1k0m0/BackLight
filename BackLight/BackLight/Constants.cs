@@ -22,8 +22,13 @@ namespace BackLight
         public static bool DebugDraw = false;
         public static bool StaticColor = false;
         //The minimum R,G,B value for each pixel e.g. 0,0,0 used for all LEDs
-        public static byte MinColorValue = 0;
-        public const int scanPixelSize = 50;
+        public static byte MinColorValue = 0;        
         public const int verticalOffset = 0;        
+    }
+
+    public enum Resolution
+    {
+        R_1080p,
+        R_4K
     }
 }
